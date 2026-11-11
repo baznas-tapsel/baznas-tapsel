@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- ===== JUDUL & DESKRIPSI SITUS (ubah di sini) ===== -->
+  <title>BAZNAS Kabupaten Tapanuli Selatan — Website & Buletin Resmi</title>
+  <meta name="description" content="Website dan Buletin BAZNAS Kabupaten Tapanuli Selatan. Tunaikan Zakat, Infaq, dan Sedekah dengan amanah dan transparan." />
+
+  <!-- Font: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    /* ===== PALET WARNA (ubah kode hex di sini untuk mengganti warna seluruh situs) ===== */
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            baznas: {
+              DEFAULT: '#00703C',  // Hijau utama BAZNAS (kontras 6.1:1 di atas putih — lulus WCAG AA)
+              dark:    '#00552D',  // Hijau gelap untuk hover & footer
+              light:   '#E6F2EC',  // Hijau sangat muda untuk latar kartu
+            },
+            emas: {
+              DEFAULT: '#F1C40F',  // Kuning emas untuk tombol CTA (selalu pakai teks gelap)
+              dark:    '#D4AC0D',  // Emas gelap untuk hover
+              light:   '#FEF9E7',
+            },
+            latar: '#F8FAFC',      // Latar belakang halaman
+          },
+          fontFamily: { sans: ['"Plus Jakarta Sans"', 'Inter', 'Roboto', 'sans-serif'] },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body { font-family: "Plus Jakarta Sans", sans-serif; }
+    /* Garis kolom ala koran untuk bagian buletin */
+    .masthead-rule { border-top: 4px double #00703C; border-bottom: 1px solid #00703C; }
+    /* Fokus keyboard yang jelas (aksesibilitas) */
+    a:focus-visible, button:focus-visible, input:focus-visible {
+      outline: 3px solid #F1C40F; outline-offset: 2px;
+    }
+    /* ===== GAYA CETAK: hanya bagian BULETIN yang dicetak saat tombol "Cetak Buletin" ditekan ===== */
+    @media print {
+      body * { visibility: hidden; }
+      #buletin, #buletin * { visibility: visible; }
+      #buletin { position: absolute; left: 0; top: 0; width: 100%; padding: 0 !important; }
+      .no-print { display: none !important; }
+      .print-full { display: block !important; }
+    }
+  </style>
+</head>
+
+<body class="bg-latar text-slate-800 antialiased">
+
+  <!-- BANNER PRATINJAU: HAPUS blok ini setelah semua data (rekening, kontak, angka) diganti dengan data resmi -->
+  <div class="bg-emas text-slate-900 text-center text-sm font-semibold px-4 py-2 no-print">
+    Versi pratinjau — nomor rekening, kontak, dan angka masih contoh. Jangan transfer ke rekening di halaman ini.
+  </div>
+
+  <!-- ============================================================
+       TOP BAR (info edisi buletin & kontak cepat) START
+       ============================================================ -->
+  <div class="bg-baznas-dark text-white text-sm no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2 flex flex-wrap items-center justify-between gap-2">
+      <!-- Ubah nomor edisi & bulan terbit di sini -->
+      <p><span class="font-semibold text-emas">Buletin Edisi No. 01</span> · November 2026</p>
+      <p class="hidden sm:block">Layanan Muzaki: <a href="https://wa.me/6281200000000" class="underline hover:text-emas">0812-0000-0000</a></p>
+    </div>
+  </div>
+  <!-- TOP BAR END -->
+
+
+  <!-- ============================================================
+       NAVBAR (STICKY) START
+       ============================================================ -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 no-print">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between" aria-label="Navigasi utama">
+      <!-- LOGO: ganti blok <div> ikon dengan <img src="logo.png" class="h-10"> jika sudah punya logo -->
+      <a href="#beranda" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-baznas flex items-center justify-center text-white font-extrabold">B</div>
+        <div class="leading-tight">
+          <span class="block font-extrabold text-baznas text-lg">BAZNAS</span>
+          <span class="block text-xs text-slate-600 font-medium">Kab. Tapanuli Selatan</span>
+        </div>
+      </a>
+
+      <!-- Menu desktop -->
+      <ul class="hidden lg:flex items-center gap-7 font-medium text-slate-700">
+        <li><a href="#beranda" class="hover:text-baznas">Beranda</a></li>
+        <li><a href="#tentang" class="hover:text-baznas">Tentang Kami</a></li>
+        <li><a href="#layanan" class="hover:text-baznas">Layanan</a></li>
+        <li><a href="#program" class="hover:text-baznas">Program</a></li>
+        <li><a href="#buletin" class="hover:text-baznas">Buletin</a></li>
+        <li><a href="#kalkulator" class="hover:text-baznas">Kalkulator</a></li>
+      </ul>
+
+      <div class="flex items-center gap-2">
+        <a href="#rekening" class="hidden sm:inline-flex items-center bg-emas hover:bg-emas-dark text-slate-900 font-bold px-5 py-2.5 rounded-xl transition">Tunaikan Zakat</a>
+        <!-- Tombol menu mobile -->
+        <button id="menuBtn" class="lg:hidden p-2 rounded-lg hover:bg-slate-100" aria-label="Buka menu" aria-expanded="false" aria-controls="mobileMenu">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Menu mobile -->
+    <div id="mobileMenu" class="hidden lg:hidden border-t border-slate-200 bg-white">
+      <ul class="px-4 py-3 space-y-1 font-medium">
+        <li><a href="#beranda" class="block px-3 py-3 rounded-lg hover:bg-baznas-light">Beranda</a></li>
+        <li><a href="#tentang" class="block px-3 py-3 rounded-lg hover:bg-baznas-light">Tentang Kami</a></li>
+        <li><a href="#layanan" class="block px-3 py-3 rounded-lg hover:bg-baznas-light">Layanan</a></li>
+        <li><a href="#program" class="block px-3 py-3 rounded-lg hover:bg-baznas-light">Program</a></li>
+        <li><a href="#buletin" class="block px-3 py-3 rounded-lg hover:bg-baznas-light">Buletin</a></li>
+        <li><a href="#kalkulator" class="block px-3 py-3 rounded-lg hover:bg-baznas-light">Kalkulator</a></li>
+        <li class="pt-2"><a href="#rekening" class="block text-center bg-emas text-slate-900 font-bold px-3 py-3 rounded-xl">Tunaikan Zakat</a></li>
+      </ul>
+    </div>
+  </header>
+  <!-- NAVBAR END -->
+
+
+  <main>
+
+  <!-- ============================================================
+       HERO SECTION START
+       ============================================================ -->
+  <section id="beranda" class="relative overflow-hidden bg-gradient-to-b from-baznas-light to-latar no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-16 lg:py-24 grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <span class="inline-block bg-white text-baznas font-semibold text-sm px-4 py-1.5 rounded-full border border-baznas/20 mb-5">Amanah · Profesional · Transparan</span>
+        <!-- Headline utama -->
+        <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight text-slate-900">
+          Sucikan Harta,<br /><span class="text-baznas">Tumbuhkan Harapan</span> Bersama
+        </h1>
+        <!-- Sub-headline -->
+        <p class="mt-5 text-lg text-slate-700 max-w-xl leading-relaxed">
+          BAZNAS Kabupaten Tapanuli Selatan menghimpun dan menyalurkan Zakat, Infaq, dan Sedekah untuk
+          mustahik di seluruh kecamatan, dari Sipirok hingga Batang Toru, secara amanah dan terlaporkan.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row gap-3">
+          <a href="#rekening" class="inline-flex justify-center items-center bg-emas hover:bg-emas-dark text-slate-900 font-bold px-7 py-4 rounded-xl text-lg shadow-sm transition">Bayar Zakat Sekarang</a>
+          <a href="#kalkulator" class="inline-flex justify-center items-center border-2 border-baznas text-baznas hover:bg-baznas hover:text-white font-bold px-7 py-4 rounded-xl text-lg transition">Kalkulator Zakat</a>
+        </div>
+      </div>
+
+      <!-- GAMBAR HERO: ganti blok di bawah dengan <img src="foto-mustahik.jpg" alt="..." class="rounded-3xl w-full object-cover aspect-[4/3]"> -->
+      <div class="relative">
+        <div class="aspect-[4/3] rounded-3xl bg-gradient-to-br from-baznas to-baznas-dark flex flex-col items-center justify-center text-white text-center p-8 shadow-xl">
+          <svg class="w-24 h-24 mb-4 opacity-90" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+          <p class="font-semibold text-lg">Tempat Foto Penerima Manfaat</p>
+          <p class="text-sm opacity-80 mt-1">Ganti dengan foto kegiatan penyaluran</p>
+        </div>
+        <div class="absolute -bottom-5 -left-3 sm:-left-6 bg-white rounded-2xl shadow-lg px-5 py-4 flex items-center gap-3">
+          <div class="w-11 h-11 rounded-full bg-emas-light flex items-center justify-center text-xl">🤝</div>
+          <div><p class="text-sm text-slate-600">Disalurkan ke</p><p class="font-bold text-slate-900">15 Kecamatan</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- HERO SECTION END -->
+
+
+  <!-- ============================================================
+       STATISTIK / TRANSPARANSI SECTION START
+       Ubah angka pada atribut data-target (angka tanpa titik).
+       ============================================================ -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 -mt-2 lg:mt-0 py-12 no-print" aria-label="Statistik">
+    <div class="grid sm:grid-cols-3 gap-5">
+      <div class="bg-white rounded-2xl p-7 border border-slate-200 shadow-sm">
+        <p class="text-slate-600 font-medium">Total Dana Terkumpul</p>
+        <p class="mt-2 text-3xl font-extrabold text-baznas">Rp <span class="counter" data-target="2450000000">0</span></p>
+        <p class="text-sm text-slate-500 mt-1">Periode Januari – Oktober 2026</p>
+      </div>
+      <div class="bg-white rounded-2xl p-7 border border-slate-200 shadow-sm">
+        <p class="text-slate-600 font-medium">Total Muzaki & Donatur</p>
+        <p class="mt-2 text-3xl font-extrabold text-baznas"><span class="counter" data-target="3870">0</span></p>
+        <p class="text-sm text-slate-500 mt-1">Perorangan, ASN & lembaga</p>
+      </div>
+      <div class="bg-white rounded-2xl p-7 border border-slate-200 shadow-sm">
+        <p class="text-slate-600 font-medium">Total Penerima Manfaat</p>
+        <p class="mt-2 text-3xl font-extrabold text-baznas"><span class="counter" data-target="6125">0</span></p>
+        <p class="text-sm text-slate-500 mt-1">Mustahik di 15 kecamatan</p>
+      </div>
+    </div>
+  </section>
+  <!-- STATISTIK SECTION END -->
+
+
+  <!-- ============================================================
+       TENTANG KAMI SECTION START
+       ============================================================ -->
+  <section id="tentang" class="py-16 bg-white no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-12 items-start">
+      <div>
+        <p class="text-baznas font-bold uppercase tracking-wider text-sm">Tentang Kami</p>
+        <h2 class="mt-2 text-3xl font-extrabold text-slate-900">Mengelola Zakat untuk Kesejahteraan Umat di Tapanuli Selatan</h2>
+        <p class="mt-5 text-slate-700 leading-relaxed text-lg">
+          BAZNAS Kabupaten Tapanuli Selatan adalah lembaga pemerintah nonstruktural yang berwenang
+          mengelola zakat di tingkat kabupaten sesuai Undang-Undang Nomor 23 Tahun 2011. Kami bekerja
+          bersama Unit Pengumpul Zakat (UPZ) di kecamatan, instansi, dan masjid untuk memastikan setiap
+          rupiah sampai kepada yang berhak.
+        </p>
+        <!-- SAMBUTAN KETUA: ganti nama & kutipan -->
+        <figure class="mt-8 bg-baznas-light rounded-2xl p-6 border-l-4 border-baznas">
+          <blockquote class="text-slate-800 italic leading-relaxed">"Zakat bukan sekadar kewajiban, melainkan jembatan yang menghubungkan kepedulian muzaki dengan harapan mustahik."</blockquote>
+          <figcaption class="mt-3 font-semibold text-baznas">[Nama Ketua], Ketua BAZNAS Kab. Tapanuli Selatan</figcaption>
+        </figure>
+      </div>
+
+      <div class="grid gap-5">
+        <div class="rounded-2xl border border-slate-200 p-6">
+          <h3 class="font-bold text-xl text-slate-900 flex items-center gap-2"><span class="text-2xl">🎯</span> Visi</h3>
+          <p class="mt-2 text-slate-700 leading-relaxed">Menjadi pengelola zakat terpercaya yang mewujudkan masyarakat Tapanuli Selatan yang sejahtera, mandiri, dan berakhlak mulia.</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 p-6">
+          <h3 class="font-bold text-xl text-slate-900 flex items-center gap-2"><span class="text-2xl">📋</span> Misi</h3>
+          <ul class="mt-2 space-y-2 text-slate-700">
+            <li class="flex gap-2"><span class="text-baznas font-bold">✓</span> Mengoptimalkan penghimpunan ZIS melalui UPZ kecamatan & instansi.</li>
+            <li class="flex gap-2"><span class="text-baznas font-bold">✓</span> Menyalurkan dana secara tepat sasaran dan produktif.</li>
+            <li class="flex gap-2"><span class="text-baznas font-bold">✓</span> Menyajikan laporan keuangan yang terbuka dan teraudit.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- TENTANG KAMI SECTION END -->
+
+
+  <!-- ============================================================
+       LAYANAN UTAMA SECTION START (4 kartu)
+       ============================================================ -->
+  <section id="layanan" class="py-16 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="text-center max-w-2xl mx-auto">
+        <p class="text-baznas font-bold uppercase tracking-wider text-sm">Layanan</p>
+        <h2 class="mt-2 text-3xl font-extrabold text-slate-900">Pilih Cara Anda Berbagi</h2>
+        <p class="mt-3 text-slate-700 text-lg">Semua dana dikelola sesuai syariat dan dilaporkan secara berkala.</p>
+      </div>
+
+      <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <!-- Kartu 1: Zakat -->
+        <article class="bg-white rounded-2xl p-6 border border-slate-200 hover:shadow-lg hover:-translate-y-1 transition flex flex-col">
+          <div class="w-14 h-14 rounded-2xl bg-baznas-light text-baznas flex items-center justify-center text-2xl">💰</div>
+          <h3 class="mt-4 font-bold text-xl text-slate-900">Zakat</h3>
+          <p class="mt-2 text-slate-700 flex-1">Zakat maal dan zakat penghasilan untuk menyucikan harta Anda.</p>
+          <a href="#rekening" class="mt-5 inline-flex justify-center bg-baznas hover:bg-baznas-dark text-white font-semibold px-4 py-2.5 rounded-xl transition">Tunaikan</a>
+        </article>
+        <!-- Kartu 2: Infaq/Sedekah -->
+        <article class="bg-white rounded-2xl p-6 border border-slate-200 hover:shadow-lg hover:-translate-y-1 transition flex flex-col">
+          <div class="w-14 h-14 rounded-2xl bg-baznas-light text-baznas flex items-center justify-center text-2xl">🤲</div>
+          <h3 class="mt-4 font-bold text-xl text-slate-900">Infaq / Sedekah</h3>
+          <p class="mt-2 text-slate-700 flex-1">Berbagi tanpa batas nominal untuk program kebaikan.</p>
+          <a href="#rekening" class="mt-5 inline-flex justify-center bg-baznas hover:bg-baznas-dark text-white font-semibold px-4 py-2.5 rounded-xl transition">Tunaikan</a>
+        </article>
+        <!-- Kartu 3: Fidyah -->
+        <article class="bg-white rounded-2xl p-6 border border-slate-200 hover:shadow-lg hover:-translate-y-1 transition flex flex-col">
+          <div class="w-14 h-14 rounded-2xl bg-baznas-light text-baznas flex items-center justify-center text-2xl">🍚</div>
+          <h3 class="mt-4 font-bold text-xl text-slate-900">Fidyah</h3>
+          <p class="mt-2 text-slate-700 flex-1">Pengganti puasa bagi yang berhalangan, sesuai ketetapan BAZNAS.</p>
+          <a href="#rekening" class="mt-5 inline-flex justify-center bg-baznas hover:bg-baznas-dark text-white font-semibold px-4 py-2.5 rounded-xl transition">Tunaikan</a>
+        </article>
+        <!-- Kartu 4: Kemanusiaan -->
+        <article class="bg-white rounded-2xl p-6 border border-slate-200 hover:shadow-lg hover:-translate-y-1 transition flex flex-col">
+          <div class="w-14 h-14 rounded-2xl bg-baznas-light text-baznas flex items-center justify-center text-2xl">🏥</div>
+          <h3 class="mt-4 font-bold text-xl text-slate-900">Kemanusiaan</h3>
+          <p class="mt-2 text-slate-700 flex-1">Bantuan darurat bencana dan warga yang membutuhkan.</p>
+          <a href="#rekening" class="mt-5 inline-flex justify-center bg-baznas hover:bg-baznas-dark text-white font-semibold px-4 py-2.5 rounded-xl transition">Tunaikan</a>
+        </article>
+      </div>
+    </div>
+  </section>
+  <!-- LAYANAN UTAMA SECTION END -->
+
+
+  <!-- ============================================================
+       PROGRAM UNGGULAN SECTION START (3 kartu + progress bar)
+       Ubah lebar progress: style="width: 72%" dan teks persentasenya.
+       ============================================================ -->
+  <section id="program" class="py-16 bg-white no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <p class="text-baznas font-bold uppercase tracking-wider text-sm">Program Unggulan</p>
+          <h2 class="mt-2 text-3xl font-extrabold text-slate-900">Program yang Sedang Berjalan</h2>
+        </div>
+      </div>
+
+      <div class="mt-10 grid md:grid-cols-3 gap-6">
+        <!-- PROGRAM 1: Tapsel Cerdas -->
+        <article class="rounded-2xl border border-slate-200 overflow-hidden flex flex-col">
+          <div class="aspect-video bg-gradient-to-br from-sky-600 to-baznas flex items-center justify-center text-6xl">📚</div>
+          <div class="p-6 flex flex-col flex-1">
+            <span class="text-xs font-bold text-baznas bg-baznas-light px-3 py-1 rounded-full self-start">Pendidikan</span>
+            <h3 class="mt-3 font-bold text-xl text-slate-900">Tapsel Cerdas</h3>
+            <p class="mt-2 text-slate-700 flex-1">Beasiswa dan perlengkapan sekolah untuk pelajar dari keluarga mustahik.</p>
+            <div class="mt-5">
+              <div class="flex justify-between text-sm font-semibold"><span class="text-slate-700">Rp 180.000.000</span><span class="text-baznas">72%</span></div>
+              <div class="mt-2 h-3 bg-slate-200 rounded-full overflow-hidden" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"><div class="h-full bg-baznas rounded-full" style="width: 72%"></div></div>
+              <p class="mt-2 text-sm text-slate-600">Target Rp 250.000.000</p>
+            </div>
+            <a href="#rekening" class="mt-5 inline-flex justify-center bg-emas hover:bg-emas-dark text-slate-900 font-bold px-4 py-3 rounded-xl transition">Donasi Sekarang</a>
+          </div>
+        </article>
+        <!-- PROGRAM 2: Tapsel Sehat -->
+        <article class="rounded-2xl border border-slate-200 overflow-hidden flex flex-col">
+          <div class="aspect-video bg-gradient-to-br from-teal-600 to-baznas flex items-center justify-center text-6xl">🩺</div>
+          <div class="p-6 flex flex-col flex-1">
+            <span class="text-xs font-bold text-baznas bg-baznas-light px-3 py-1 rounded-full self-start">Kesehatan</span>
+            <h3 class="mt-3 font-bold text-xl text-slate-900">Tapsel Sehat</h3>
+            <p class="mt-2 text-slate-700 flex-1">Bantuan biaya berobat, transportasi pasien, dan layanan kesehatan gratis.</p>
+            <div class="mt-5">
+              <div class="flex justify-between text-sm font-semibold"><span class="text-slate-700">Rp 96.000.000</span><span class="text-baznas">48%</span></div>
+              <div class="mt-2 h-3 bg-slate-200 rounded-full overflow-hidden" role="progressbar" aria-valuenow="48" aria-valuemin="0" aria-valuemax="100"><div class="h-full bg-baznas rounded-full" style="width: 48%"></div></div>
+              <p class="mt-2 text-sm text-slate-600">Target Rp 200.000.000</p>
+            </div>
+            <a href="#rekening" class="mt-5 inline-flex justify-center bg-emas hover:bg-emas-dark text-slate-900 font-bold px-4 py-3 rounded-xl transition">Donasi Sekarang</a>
+          </div>
+        </article>
+        <!-- PROGRAM 3: Tapsel Tanggap Bencana -->
+        <article class="rounded-2xl border border-slate-200 overflow-hidden flex flex-col">
+          <div class="aspect-video bg-gradient-to-br from-orange-600 to-baznas flex items-center justify-center text-6xl">🆘</div>
+          <div class="p-6 flex flex-col flex-1">
+            <span class="text-xs font-bold text-baznas bg-baznas-light px-3 py-1 rounded-full self-start">Kemanusiaan</span>
+            <h3 class="mt-3 font-bold text-xl text-slate-900">Tapsel Tanggap Bencana</h3>
+            <p class="mt-2 text-slate-700 flex-1">Respons cepat untuk korban banjir, longsor, dan kebakaran di Tapanuli Selatan.</p>
+            <div class="mt-5">
+              <div class="flex justify-between text-sm font-semibold"><span class="text-slate-700">Rp 64.500.000</span><span class="text-baznas">86%</span></div>
+              <div class="mt-2 h-3 bg-slate-200 rounded-full overflow-hidden" role="progressbar" aria-valuenow="86" aria-valuemin="0" aria-valuemax="100"><div class="h-full bg-baznas rounded-full" style="width: 86%"></div></div>
+              <p class="mt-2 text-sm text-slate-600">Target Rp 75.000.000</p>
+            </div>
+            <a href="#rekening" class="mt-5 inline-flex justify-center bg-emas hover:bg-emas-dark text-slate-900 font-bold px-4 py-3 rounded-xl transition">Donasi Sekarang</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+  <!-- PROGRAM UNGGULAN SECTION END -->
+
+
+  <!-- ============================================================
+       BULETIN SECTION START
+       Isi berita TIDAK diketik di sini — tambahkan/ubah berita di
+       bagian JavaScript "DATA BULETIN" di bawah halaman.
+       Ubah nomor edisi & tanggal terbit pada MASTHEAD di bawah ini.
+       ============================================================ -->
+  <section id="buletin" class="py-16 bg-latar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+
+      <!-- MASTHEAD BULETIN (kepala buletin seperti koran) -->
+      <div class="text-center">
+        <p class="text-sm font-semibold text-slate-600 tracking-widest uppercase">Buletin Resmi</p>
+        <h2 class="mt-1 text-4xl sm:text-5xl font-extrabold text-baznas tracking-tight">Warta BAZNAS Tapsel</h2>
+        <div class="masthead-rule mt-4 py-2 flex flex-wrap justify-center sm:justify-between gap-x-6 gap-y-1 text-sm font-semibold text-slate-700">
+          <span>Edisi No. 01 · Tahun I</span>
+          <span>Sipirok, November 2026</span>
+          <span>Media Informasi Zakat, Infaq & Sedekah</span>
+        </div>
+      </div>
+
+      <!-- Tab kategori + tombol cetak -->
+      <div class="mt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 no-print">
+        <div id="filterTabs" class="flex flex-wrap gap-2" role="tablist" aria-label="Kategori berita"></div>
+        <button id="printBtn" class="inline-flex items-center gap-2 border-2 border-baznas text-baznas hover:bg-baznas hover:text-white font-semibold px-4 py-2 rounded-xl transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z"/></svg>
+          Cetak Buletin
+        </button>
+      </div>
+
+      <div class="mt-8 grid lg:grid-cols-3 gap-8">
+        <!-- Kolom berita (diisi otomatis oleh JavaScript) -->
+        <div class="lg:col-span-2">
+          <div id="beritaUtama"></div>
+          <div id="daftarBerita" class="mt-6 grid sm:grid-cols-2 gap-5"></div>
+        </div>
+
+        <!-- SIDEBAR BULETIN -->
+        <aside class="space-y-6">
+          <!-- Laporan singkat penyaluran: ubah angka di sini -->
+          <div class="bg-white rounded-2xl border border-slate-200 p-6">
+            <h3 class="font-bold text-lg text-slate-900 border-b-2 border-baznas pb-2">Laporan Penyaluran Bulan Ini</h3>
+            <table class="w-full mt-3 text-sm">
+              <tbody class="divide-y divide-slate-100">
+                <tr><td class="py-2.5 text-slate-700">Fakir & Miskin</td><td class="py-2.5 text-right font-semibold">Rp 85.400.000</td></tr>
+                <tr><td class="py-2.5 text-slate-700">Pendidikan</td><td class="py-2.5 text-right font-semibold">Rp 42.000.000</td></tr>
+                <tr><td class="py-2.5 text-slate-700">Kesehatan</td><td class="py-2.5 text-right font-semibold">Rp 18.750.000</td></tr>
+                <tr><td class="py-2.5 text-slate-700">Ekonomi Produktif</td><td class="py-2.5 text-right font-semibold">Rp 30.000.000</td></tr>
+                <tr class="bg-baznas-light"><td class="py-2.5 px-2 font-bold text-baznas">Total</td><td class="py-2.5 px-2 text-right font-extrabold text-baznas">Rp 176.150.000</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Agenda: tambah/ubah baris <li> -->
+          <div class="bg-white rounded-2xl border border-slate-200 p-6">
+            <h3 class="font-bold text-lg text-slate-900 border-b-2 border-baznas pb-2">Agenda Terdekat</h3>
+            <ul class="mt-3 space-y-4">
+              <li class="flex gap-3">
+                <div class="w-14 shrink-0 text-center bg-baznas text-white rounded-xl py-1.5"><p class="text-lg font-extrabold leading-none">20</p><p class="text-xs">NOV</p></div>
+                <div><p class="font-semibold text-slate-900">Penyaluran Bantuan Pendidikan</p><p class="text-sm text-slate-600">Aula Kantor BAZNAS, Sipirok</p></div>
+              </li>
+              <li class="flex gap-3">
+                <div class="w-14 shrink-0 text-center bg-baznas text-white rounded-xl py-1.5"><p class="text-lg font-extrabold leading-none">03</p><p class="text-xs">DES</p></div>
+                <div><p class="font-semibold text-slate-900">Rapat Koordinasi UPZ Kecamatan</p><p class="text-sm text-slate-600">Kantor Bupati Tapanuli Selatan</p></div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Hikmah / kutipan edisi ini -->
+          <div class="bg-baznas text-white rounded-2xl p-6">
+            <p class="text-emas font-bold text-sm uppercase tracking-wider">Hikmah Edisi Ini</p>
+            <p class="mt-3 leading-relaxed">"Ambillah zakat dari sebagian harta mereka, dengan zakat itu kamu membersihkan dan menyucikan mereka."</p>
+            <p class="mt-2 text-sm text-emas-light">— QS. At-Taubah: 103</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+  <!-- BULETIN SECTION END -->
+
+
+  <!-- ============================================================
+       KALKULATOR ZAKAT SECTION START
+       Nilai nisab diatur di JavaScript: const NISAB_BULANAN
+       ============================================================ -->
+  <section id="kalkulator" class="py-16 bg-white no-print">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <div class="text-center">
+        <p class="text-baznas font-bold uppercase tracking-wider text-sm">Kalkulator</p>
+        <h2 class="mt-2 text-3xl font-extrabold text-slate-900">Hitung Zakat Penghasilan Anda</h2>
+        <p class="mt-3 text-slate-700 text-lg">Masukkan penghasilan bulanan, kami bantu menghitung kewajiban zakatnya.</p>
+      </div>
+
+      <div class="mt-10 bg-latar rounded-3xl border border-slate-200 p-6 sm:p-10 grid md:grid-cols-2 gap-8">
+        <form id="zakatForm" class="space-y-5" novalidate>
+          <div>
+            <label for="gaji" class="block font-semibold text-slate-800 mb-2">Penghasilan Per Bulan</label>
+            <div class="flex items-center bg-white border-2 border-slate-300 rounded-xl focus-within:border-baznas">
+              <span class="pl-4 font-semibold text-slate-600">Rp</span>
+              <input id="gaji" type="text" inputmode="numeric" placeholder="0" class="w-full px-3 py-3.5 rounded-xl text-lg outline-none bg-transparent" />
+            </div>
+          </div>
+          <div>
+            <label for="lain" class="block font-semibold text-slate-800 mb-2">Pendapatan Lain (bonus, usaha, dll.)</label>
+            <div class="flex items-center bg-white border-2 border-slate-300 rounded-xl focus-within:border-baznas">
+              <span class="pl-4 font-semibold text-slate-600">Rp</span>
+              <input id="lain" type="text" inputmode="numeric" placeholder="0" class="w-full px-3 py-3.5 rounded-xl text-lg outline-none bg-transparent" />
+            </div>
+          </div>
+          <button type="submit" class="w-full bg-baznas hover:bg-baznas-dark text-white font-bold py-4 rounded-xl text-lg transition">Hitung Kewajiban Zakat (2,5%)</button>
+        </form>
+
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col justify-center" aria-live="polite">
+          <p class="text-slate-600 font-medium">Total Penghasilan</p>
+          <p id="hasilTotal" class="text-2xl font-bold text-slate-900">Rp 0</p>
+          <hr class="my-4 border-slate-200" />
+          <p class="text-slate-600 font-medium">Zakat yang Perlu Ditunaikan</p>
+          <p id="hasilZakat" class="text-4xl font-extrabold text-baznas">Rp 0</p>
+          <p id="hasilKet" class="mt-3 text-sm text-slate-600">Isi formulir lalu tekan tombol hitung.</p>
+          <a href="#rekening" class="mt-5 inline-flex justify-center bg-emas hover:bg-emas-dark text-slate-900 font-bold px-4 py-3 rounded-xl transition">Tunaikan Sekarang</a>
+        </div>
+      </div>
+      <p class="mt-4 text-sm text-slate-600 text-center">*Perhitungan bersifat simulasi. Nisab mengacu pada ketetapan BAZNAS RI yang berlaku.</p>
+    </div>
+  </section>
+  <!-- KALKULATOR ZAKAT SECTION END -->
+
+
+  <!-- ============================================================
+       REKENING RESMI / CARA BAYAR SECTION START
+       GANTI nomor rekening di atribut data-rek DAN teks yang tampil.
+       ============================================================ -->
+  <section id="rekening" class="py-16 bg-baznas no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="text-center text-white max-w-2xl mx-auto">
+        <h2 class="text-3xl font-extrabold">Rekening Resmi BAZNAS Tapanuli Selatan</h2>
+        <p class="mt-3 text-lg text-white/90">Transfer hanya ke rekening atas nama <strong>BAZNAS Kabupaten Tapanuli Selatan</strong>, lalu konfirmasi via WhatsApp.</p>
+      </div>
+      <div class="mt-10 grid sm:grid-cols-3 gap-5">
+        <div class="bg-white rounded-2xl p-6">
+          <p class="font-bold text-slate-900">Bank Syariah Indonesia (BSI)</p>
+          <p class="mt-1 text-sm text-slate-600">Rekening Zakat</p>
+          <p class="mt-3 text-2xl font-extrabold tracking-wider text-baznas">000 000 0000</p>
+          <button class="copyBtn mt-4 w-full border-2 border-baznas text-baznas hover:bg-baznas hover:text-white font-semibold py-2 rounded-xl transition" data-rek="0000000000">Salin Nomor</button>
+        </div>
+        <div class="bg-white rounded-2xl p-6">
+          <p class="font-bold text-slate-900">Bank Sumut Syariah</p>
+          <p class="mt-1 text-sm text-slate-600">Rekening Infaq/Sedekah</p>
+          <p class="mt-3 text-2xl font-extrabold tracking-wider text-baznas">000 000 0000</p>
+          <button class="copyBtn mt-4 w-full border-2 border-baznas text-baznas hover:bg-baznas hover:text-white font-semibold py-2 rounded-xl transition" data-rek="0000000000">Salin Nomor</button>
+        </div>
+        <div class="bg-white rounded-2xl p-6">
+          <p class="font-bold text-slate-900">Bank Mandiri</p>
+          <p class="mt-1 text-sm text-slate-600">Rekening Kemanusiaan</p>
+          <p class="mt-3 text-2xl font-extrabold tracking-wider text-baznas">000 000 0000</p>
+          <button class="copyBtn mt-4 w-full border-2 border-baznas text-baznas hover:bg-baznas hover:text-white font-semibold py-2 rounded-xl transition" data-rek="0000000000">Salin Nomor</button>
+        </div>
+      </div>
+      <div class="mt-8 text-center">
+        <a href="https://wa.me/6281200000000?text=Assalamu'alaikum,%20saya%20ingin%20konfirmasi%20pembayaran%20zakat" class="inline-flex items-center bg-emas hover:bg-emas-dark text-slate-900 font-bold px-7 py-4 rounded-xl text-lg transition">Konfirmasi via WhatsApp</a>
+      </div>
+    </div>
+  </section>
+  <!-- REKENING RESMI SECTION END -->
+
+  </main>
+
+
+  <!-- ============================================================
+       FOOTER START
+       ============================================================ -->
+  <footer class="bg-slate-900 text-slate-300 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
+      <div>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-baznas flex items-center justify-center text-white font-extrabold">B</div>
+          <div class="leading-tight"><p class="font-extrabold text-white text-lg">BAZNAS</p><p class="text-xs">Kab. Tapanuli Selatan</p></div>
+        </div>
+        <p class="mt-4 leading-relaxed">Badan Amil Zakat Nasional Kabupaten Tapanuli Selatan. Amanah, profesional, dan transparan.</p>
+      </div>
+
+      <!-- ALAMAT & KONTAK: ganti dengan data resmi -->
+      <div>
+        <h3 class="font-bold text-white text-lg">Kantor</h3>
+        <address class="mt-4 not-italic leading-relaxed">
+          [Alamat Kantor BAZNAS]<br />Sipirok, Kabupaten Tapanuli Selatan<br />Sumatera Utara [Kode Pos]
+        </address>
+        <p class="mt-3">Senin – Jumat, 08.00 – 16.00 WIB</p>
+      </div>
+
+      <div>
+        <h3 class="font-bold text-white text-lg">Kontak</h3>
+        <ul class="mt-4 space-y-2">
+          <li>WhatsApp: <a href="https://wa.me/6281200000000" class="hover:text-emas underline">0812-0000-0000</a></li>
+          <li>Telepon: <a href="tel:+620000000000" class="hover:text-emas underline">(0634) 000000</a></li>
+          <li>Email: <a href="mailto:baznas@tapselkab.go.id" class="hover:text-emas underline">[email resmi]</a></li>
+        </ul>
+      </div>
+
+      <!-- MEDIA SOSIAL: ganti href dengan tautan akun resmi -->
+      <div>
+        <h3 class="font-bold text-white text-lg">Ikuti Kami</h3>
+        <div class="mt-4 flex gap-3">
+          <a href="#" aria-label="Facebook" class="w-11 h-11 rounded-xl bg-slate-800 hover:bg-baznas flex items-center justify-center transition">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M14 9h3V5h-3c-2.8 0-4 1.7-4 4v2H8v4h2v8h4v-8h3l1-4h-4V9.5c0-.3.2-.5.5-.5z"/></svg>
+          </a>
+          <a href="#" aria-label="Instagram" class="w-11 h-11 rounded-xl bg-slate-800 hover:bg-baznas flex items-center justify-center transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          </a>
+          <a href="#" aria-label="YouTube" class="w-11 h-11 rounded-xl bg-slate-800 hover:bg-baznas flex items-center justify-center transition">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23 7.5a3 3 0 00-2.1-2.1C19 5 12 5 12 5s-7 0-8.9.4A3 3 0 001 7.5 31 31 0 00.6 12 31 31 0 001 16.5a3 3 0 002.1 2.1C5 19 12 19 12 19s7 0 8.9-.4a3 3 0 002.1-2.1 31 31 0 00.4-4.5 31 31 0 00-.4-4.5zM9.8 15.1V8.9L15.2 12z"/></svg>
+          </a>
+          <a href="#" aria-label="TikTok" class="w-11 h-11 rounded-xl bg-slate-800 hover:bg-baznas flex items-center justify-center transition">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M16.5 3c.4 2.2 1.8 3.7 4 4v3.2a7.6 7.6 0 01-4-1.2v6.5A5.5 5.5 0 1111 10v3.3a2.3 2.3 0 102.3 2.3V3z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-slate-800">
+      <p class="max-w-7xl mx-auto px-4 sm:px-6 py-5 text-sm text-center">© <span id="tahun"></span> BAZNAS Kabupaten Tapanuli Selatan. Seluruh hak dilindungi.</p>
+    </div>
+  </footer>
+  <!-- FOOTER END -->
+
+
+  <!-- MODAL BACA BERITA (jangan dihapus — dipakai bagian Buletin) -->
+  <div id="modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 p-4 overflow-y-auto no-print" role="dialog" aria-modal="true" aria-labelledby="modalJudul">
+    <div class="max-w-2xl mx-auto my-8 bg-white rounded-3xl overflow-hidden">
+      <div id="modalGambar" class="aspect-video flex items-center justify-center text-7xl"></div>
+      <div class="p-6 sm:p-8">
+        <p id="modalMeta" class="text-sm font-semibold text-baznas"></p>
+        <h3 id="modalJudul" class="mt-2 text-2xl font-extrabold text-slate-900"></h3>
+        <div id="modalIsi" class="mt-4 space-y-4 text-slate-700 leading-relaxed text-lg"></div>
+        <button id="modalTutup" class="mt-8 w-full bg-baznas hover:bg-baznas-dark text-white font-bold py-3 rounded-xl">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notifikasi kecil (toast) -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-lg hidden z-50"></div>
+
+
+  <script>
+  /* ================================================================
+     DATA BULETIN — TAMBAH / UBAH BERITA DI SINI
+     ----------------------------------------------------------------
+     Cara menambah berita baru: salin satu blok { ... }, tempel di
+     paling atas daftar, lalu ubah isinya.
+       judul    : judul berita
+       kategori : "Penyaluran" | "Kegiatan" | "Edukasi" | "Laporan"
+                  (kategori baru otomatis muncul sebagai tab)
+       tanggal  : teks tanggal bebas
+       penulis  : nama penulis / tim
+       ringkas  : 1–2 kalimat ringkasan
+       isi      : daftar paragraf (setiap "..." = satu paragraf)
+       ikon     : emoji pengganti foto (atau kosongkan dan isi gambar)
+       gambar   : (opsional) alamat foto, mis. "foto/berita1.jpg"
+       utama    : true = tampil sebagai berita utama (cukup satu)
+     CATATAN: berita di bawah adalah CONTOH — ganti dengan berita asli.
+     ================================================================ */
+  const DATA_BULETIN = [
+    {
+      judul: "BAZNAS Tapsel Salurkan Bantuan Pendidikan untuk Pelajar Mustahik",
+      kategori: "Penyaluran",
+      tanggal: "8 November 2026",
+      penulis: "Tim Humas BAZNAS Tapsel",
+      ringkas: "Bantuan biaya sekolah dan perlengkapan belajar diserahkan kepada pelajar dari keluarga kurang mampu di sejumlah kecamatan.",
+      isi: [
+        "BAZNAS Kabupaten Tapanuli Selatan menyerahkan bantuan pendidikan kepada pelajar dari keluarga mustahik melalui program Tapsel Cerdas. Penyerahan dilakukan di Aula Kantor BAZNAS, Sipirok.",
+        "[Tulis isi berita lengkap di sini: jumlah penerima, asal kecamatan, nilai bantuan, dan kutipan dari pimpinan atau penerima.]",
+        "BAZNAS mengajak masyarakat terus menunaikan zakat melalui saluran resmi agar program serupa dapat menjangkau lebih banyak pelajar."
+      ],
+      ikon: "🎓",
+      gambar: "",
+      utama: true
+    },
+    {
+      judul: "Bimbingan Teknis UPZ Kecamatan se-Tapanuli Selatan",
+      kategori: "Kegiatan",
+      tanggal: "1 November 2026",
+      penulis: "Tim Humas BAZNAS Tapsel",
+      ringkas: "Pengurus UPZ kecamatan mengikuti bimtek tentang pengumpulan, pencatatan, dan pelaporan ZIS.",
+      isi: [
+        "Pengurus Unit Pengumpul Zakat (UPZ) dari seluruh kecamatan mengikuti Bimbingan Teknis yang diselenggarakan BAZNAS Kabupaten Tapanuli Selatan.",
+        "[Tulis materi, narasumber, jumlah peserta, dan hasil kegiatan di sini.]"
+      ],
+      ikon: "👥",
+      gambar: ""
+    },
+    {
+      judul: "Mengenal Zakat Penghasilan: Kapan Wajib dan Berapa Besarnya?",
+      kategori: "Edukasi",
+      tanggal: "28 Oktober 2026",
+      penulis: "Bidang Pengumpulan",
+      ringkas: "Zakat penghasilan wajib dikeluarkan bila pendapatan mencapai nisab, dengan kadar 2,5%.",
+      isi: [
+        "Zakat penghasilan (zakat profesi) adalah zakat yang dikeluarkan dari pendapatan seperti gaji, honor, atau jasa, apabila telah mencapai nisab.",
+        "Kadar zakat penghasilan adalah 2,5%. Besaran nisab mengikuti ketetapan BAZNAS RI yang diperbarui secara berkala. Gunakan Kalkulator Zakat di situs ini untuk simulasi."
+      ],
+      ikon: "📖",
+      gambar: ""
+    },
+    {
+      judul: "Laporan Penghimpunan dan Penyaluran ZIS Triwulan III 2026",
+      kategori: "Laporan",
+      tanggal: "15 Oktober 2026",
+      penulis: "Bidang Keuangan",
+      ringkas: "Ringkasan dana yang dihimpun dan disalurkan selama Juli–September 2026.",
+      isi: [
+        "Sebagai wujud transparansi, BAZNAS Kabupaten Tapanuli Selatan menyampaikan laporan penghimpunan dan penyaluran ZIS untuk Triwulan III 2026.",
+        "[Masukkan angka penghimpunan, penyaluran per asnaf, dan saldo di sini.]"
+      ],
+      ikon: "📊",
+      gambar: ""
+    },
+    {
+      judul: "Bantuan Tanggap Darurat untuk Warga Terdampak Banjir",
+      kategori: "Penyaluran",
+      tanggal: "5 Oktober 2026",
+      penulis: "Tim Tanggap Bencana",
+      ringkas: "Paket sembako dan kebutuhan darurat disalurkan kepada keluarga terdampak.",
+      isi: [
+        "Tim Tapsel Tanggap Bencana menyalurkan paket bantuan kepada warga terdampak banjir di [Nama Desa/Kecamatan].",
+        "[Tulis rincian bantuan dan jumlah keluarga penerima di sini.]"
+      ],
+      ikon: "🌧️",
+      gambar: ""
+    }
+  ];
+
+  /* ===== PENGATURAN KALKULATOR =====
+     Ganti nilai nisab sesuai SK Ketua BAZNAS RI yang berlaku tahun ini
+     (nisab zakat penghasilan = setara 85 gram emas per tahun, dibagi 12). */
+  const NISAB_BULANAN = 7140498;  // contoh — PERBARUI sesuai ketetapan terbaru
+  const KADAR_ZAKAT  = 0.025;
+
+
+  /* ================================================================
+     KODE DI BAWAH INI TIDAK PERLU DIUBAH
+     ================================================================ */
+  const rupiah = n => "Rp " + Math.round(n).toLocaleString("id-ID");
+  const $ = id => document.getElementById(id);
+
+  // --- Menu mobile ---
+  const menuBtn = $("menuBtn"), mobileMenu = $("mobileMenu");
+  menuBtn.addEventListener("click", () => {
+    const open = mobileMenu.classList.toggle("hidden") === false;
+    menuBtn.setAttribute("aria-expanded", open);
+  });
+  mobileMenu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
+    mobileMenu.classList.add("hidden"); menuBtn.setAttribute("aria-expanded", false);
+  }));
+
+  // --- Counter statistik (berjalan saat terlihat) ---
+  const counters = document.querySelectorAll(".counter");
+  const runCounter = el => {
+    const target = +el.dataset.target, dur = 1600, start = performance.now();
+    const step = t => {
+      const p = Math.min((t - start) / dur, 1);
+      el.textContent = Math.floor(target * (1 - Math.pow(1 - p, 3))).toLocaleString("id-ID");
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  const obs = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting) { runCounter(e.target); obs.unobserve(e.target); }
+  }), { threshold: 0.4 });
+  counters.forEach(c => obs.observe(c));
+
+  // --- Buletin: render berita ---
+  const media = (b, cls) => b.gambar
+    ? `<img src="${b.gambar}" alt="${b.judul}" class="${cls} object-cover w-full">`
+    : `<div class="${cls} bg-gradient-to-br from-baznas-light to-emas-light flex items-center justify-center text-6xl" aria-hidden="true">${b.ikon || "📰"}</div>`;
+
+  function renderBuletin(kat) {
+    const list = DATA_BULETIN.filter(b => kat === "Semua" || b.kategori === kat);
+    const utama = list.find(b => b.utama) || list[0];
+    const sisanya = list.filter(b => b !== utama);
+
+    $("beritaUtama").innerHTML = utama ? `
+      <article class="bg-white rounded-3xl border border-slate-200 overflow-hidden">
+        ${media(utama, "aspect-[16/8]")}
+        <div class="p-6 sm:p-8">
+          <p class="text-sm font-semibold text-baznas">${utama.kategori} · ${utama.tanggal}</p>
+          <h3 class="mt-2 text-2xl sm:text-3xl font-extrabold text-slate-900 leading-snug">${utama.judul}</h3>
+          <p class="mt-3 text-slate-700 text-lg leading-relaxed">${utama.ringkas}</p>
+          <div class="hidden print-full mt-3 space-y-3 text-slate-700">${utama.isi.map(p => `<p>${p}</p>`).join("")}</div>
+          <button class="bacaBtn no-print mt-5 inline-flex items-center gap-1 font-bold text-baznas hover:underline" data-i="${DATA_BULETIN.indexOf(utama)}">Baca selengkapnya →</button>
+        </div>
+      </article>` : `<p class="text-slate-600">Belum ada berita di kategori ini.</p>`;
+
+    $("daftarBerita").innerHTML = sisanya.map(b => `
+      <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col">
+        ${media(b, "aspect-video")}
+        <div class="p-5 flex flex-col flex-1">
+          <p class="text-xs font-semibold text-baznas">${b.kategori} · ${b.tanggal}</p>
+          <h4 class="mt-2 font-bold text-lg text-slate-900 leading-snug">${b.judul}</h4>
+          <p class="mt-2 text-slate-700 flex-1">${b.ringkas}</p>
+          <button class="bacaBtn no-print mt-4 self-start font-bold text-baznas hover:underline" data-i="${DATA_BULETIN.indexOf(b)}">Baca selengkapnya →</button>
+        </div>
+      </article>`).join("");
+  }
+
+  // --- Buletin: tab kategori ---
+  const kategori = ["Semua", ...new Set(DATA_BULETIN.map(b => b.kategori))];
+  $("filterTabs").innerHTML = kategori.map((k, i) => `
+    <button role="tab" aria-selected="${i === 0}" data-kat="${k}"
+      class="tabBtn px-4 py-2 rounded-full font-semibold border-2 transition ${i === 0 ? "bg-baznas border-baznas text-white" : "border-slate-300 text-slate-700 hover:border-baznas"}">${k}</button>`).join("");
+  $("filterTabs").addEventListener("click", e => {
+    const btn = e.target.closest(".tabBtn"); if (!btn) return;
+    document.querySelectorAll(".tabBtn").forEach(b => {
+      const on = b === btn;
+      b.setAttribute("aria-selected", on);
+      b.className = `tabBtn px-4 py-2 rounded-full font-semibold border-2 transition ${on ? "bg-baznas border-baznas text-white" : "border-slate-300 text-slate-700 hover:border-baznas"}`;
+    });
+    renderBuletin(btn.dataset.kat);
+  });
+  renderBuletin("Semua");
+
+  // --- Buletin: modal baca berita ---
+  const modal = $("modal");
+  document.addEventListener("click", e => {
+    const btn = e.target.closest(".bacaBtn"); if (!btn) return;
+    const b = DATA_BULETIN[btn.dataset.i];
+    $("modalGambar").innerHTML = b.gambar ? `<img src="${b.gambar}" alt="${b.judul}" class="w-full h-full object-cover">` : (b.ikon || "📰");
+    $("modalGambar").className = "aspect-video flex items-center justify-center text-7xl bg-gradient-to-br from-baznas-light to-emas-light";
+    $("modalMeta").textContent = `${b.kategori} · ${b.tanggal} · ${b.penulis}`;
+    $("modalJudul").textContent = b.judul;
+    $("modalIsi").innerHTML = b.isi.map(p => `<p>${p}</p>`).join("");
+    modal.classList.remove("hidden"); document.body.style.overflow = "hidden";
+    $("modalTutup").focus();
+  });
+  const tutupModal = () => { modal.classList.add("hidden"); document.body.style.overflow = ""; };
+  $("modalTutup").addEventListener("click", tutupModal);
+  modal.addEventListener("click", e => { if (e.target === modal) tutupModal(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") tutupModal(); });
+
+  // --- Cetak buletin ---
+  $("printBtn").addEventListener("click", () => {
+    try { window.print(); } catch (e) {}
+    toast("Jika jendela cetak tidak muncul, buka file index.html di browser lalu tekan Ctrl+P");
+  });
+
+  // --- Kalkulator zakat ---
+  const angka = el => +(el.value.replace(/\D/g, "") || 0);
+  ["gaji", "lain"].forEach(id => $(id).addEventListener("input", e => {
+    const n = angka(e.target); e.target.value = n ? n.toLocaleString("id-ID") : "";
+  }));
+  $("zakatForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const total = angka($("gaji")) + angka($("lain"));
+    $("hasilTotal").textContent = rupiah(total);
+    if (total === 0) {
+      $("hasilZakat").textContent = rupiah(0);
+      $("hasilKet").textContent = "Silakan isi penghasilan terlebih dahulu.";
+    } else if (total >= NISAB_BULANAN) {
+      $("hasilZakat").textContent = rupiah(total * KADAR_ZAKAT);
+      $("hasilKet").textContent = `Penghasilan Anda telah mencapai nisab (${rupiah(NISAB_BULANAN)}/bulan). Zakat wajib ditunaikan.`;
+    } else {
+      $("hasilZakat").textContent = rupiah(0);
+      $("hasilKet").textContent = `Penghasilan belum mencapai nisab (${rupiah(NISAB_BULANAN)}/bulan). Anda tetap dapat berinfaq atau bersedekah.`;
+    }
+  });
+
+  // --- Salin nomor rekening ---
+  const toast = msg => { const t = $("toast"); t.textContent = msg; t.classList.remove("hidden"); setTimeout(() => t.classList.add("hidden"), 2200); };
+  document.querySelectorAll(".copyBtn").forEach(btn => btn.addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(btn.dataset.rek); toast("Nomor rekening disalin ✓"); }
+    catch { toast("Salin manual: " + btn.dataset.rek); }
+  }));
+
+  // --- Tahun footer otomatis ---
+  $("tahun").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
