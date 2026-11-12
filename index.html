@@ -95,6 +95,7 @@
       <ul class="hidden lg:flex items-center gap-7 font-medium text-slate-700">
         <li><a href="#beranda" class="hover:text-baznas">Beranda</a></li>
         <li><a href="#tentang" class="hover:text-baznas">Tentang Kami</a></li>
+        <li><a href="#pimpinan" class="hover:text-baznas">Pimpinan</a></li>
         <li><a href="#layanan" class="hover:text-baznas">Layanan</a></li>
         <li><a href="#program" class="hover:text-baznas">Program</a></li>
         <li><a href="#buletin" class="hover:text-baznas">Buletin</a></li>
@@ -115,6 +116,7 @@
       <ul class="px-4 py-3 space-y-1 font-medium">
         <li><a href="#beranda" class="block px-3 py-3 rounded-lg hover:bg-baznas-light">Beranda</a></li>
         <li><a href="#tentang" class="block px-3 py-3 rounded-lg hover:bg-baznas-light">Tentang Kami</a></li>
+        <li><a href="#pimpinan" class="block px-3 py-3 rounded-lg hover:bg-baznas-light">Pimpinan</a></li>
         <li><a href="#layanan" class="block px-3 py-3 rounded-lg hover:bg-baznas-light">Layanan</a></li>
         <li><a href="#program" class="block px-3 py-3 rounded-lg hover:bg-baznas-light">Program</a></li>
         <li><a href="#buletin" class="block px-3 py-3 rounded-lg hover:bg-baznas-light">Buletin</a></li>
@@ -207,10 +209,10 @@
           bersama Unit Pengumpul Zakat (UPZ) di kecamatan, instansi, dan masjid untuk memastikan setiap
           rupiah sampai kepada yang berhak.
         </p>
-        <!-- SAMBUTAN KETUA: ganti nama & kutipan -->
+        <!-- AJAKAN LEMBAGA: bila ada kutipan langsung dari Ketua, ganti teks & figcaption -->
         <figure class="mt-8 bg-baznas-light rounded-2xl p-6 border-l-4 border-baznas">
-          <blockquote class="text-slate-800 italic leading-relaxed">"Zakat bukan sekadar kewajiban, melainkan jembatan yang menghubungkan kepedulian muzaki dengan harapan mustahik."</blockquote>
-          <figcaption class="mt-3 font-semibold text-baznas">[Nama Ketua], Ketua BAZNAS Kab. Tapanuli Selatan</figcaption>
+          <blockquote class="text-slate-800 italic leading-relaxed">"Mari bersama kita dukung gerak langkah BAZNAS Tapanuli Selatan dalam berkhidmat, menginspirasi, dan membawa kemaslahatan bagi seluruh masyarakat Tapanuli Selatan."</blockquote>
+          <figcaption class="mt-3 font-semibold text-baznas">BAZNAS Kabupaten Tapanuli Selatan · <a href="#pimpinan" class="underline hover:text-baznas-dark">Kenali pimpinan kami →</a></figcaption>
         </figure>
       </div>
 
@@ -231,6 +233,24 @@
     </div>
   </section>
   <!-- TENTANG KAMI SECTION END -->
+
+
+  <!-- ============================================================
+       PROFIL PIMPINAN SECTION START
+       Kartu diisi otomatis dari DATA_PIMPINAN di bagian <script>.
+       Foto disimpan di folder foto/pimpinan/ (rasio 4:5).
+       ============================================================ -->
+  <section id="pimpinan" class="py-16 bg-latar no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="text-center max-w-2xl mx-auto">
+        <p class="text-baznas font-bold uppercase tracking-wider text-sm">Profil Pimpinan</p>
+        <h2 class="mt-2 text-3xl font-extrabold text-slate-900">Pimpinan & Jajaran Komisioner</h2>
+        <p class="mt-3 text-slate-700 text-lg leading-relaxed">Perpaduan pengalaman perbankan syariah, pendidikan, literasi, dan pembinaan keumatan untuk tata kelola zakat yang amanah dan berdampak.</p>
+      </div>
+      <div id="daftarPimpinan" class="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+  </section>
+  <!-- PROFIL PIMPINAN SECTION END -->
 
 
   <!-- ============================================================
@@ -673,6 +693,68 @@
     }
   ];
 
+  /* ================================================================
+     DATA PIMPINAN — UBAH PROFIL PIMPINAN DI SINI
+     ----------------------------------------------------------------
+     Urutan kartu mengikuti urutan daftar di bawah.
+       nama     : nama lengkap beserta gelar
+       jabatan  : jabatan di BAZNAS
+       bidang   : (opsional) bidang yang dipimpin
+       foto     : alamat foto (rasio 4:5), mis. "foto/pimpinan/nama.jpg"
+       ringkas  : 1–2 kalimat untuk kartu
+       keahlian : (opsional) daftar label singkat
+       isi      : daftar paragraf profil lengkap (tampil di jendela baca)
+     Untuk menambah Wakil Ketua I / IV, salin satu blok { ... }.
+     ================================================================ */
+  const DATA_PIMPINAN = [
+    {
+      nama: "Jon Sujani Pasaribu",
+      jabatan: "Ketua",
+      bidang: "",
+      foto: "foto/pimpinan/jon-sujani-pasaribu.jpg",
+      ringkas: "Eks petinggi Bank BUMN (BNI, BNI Syariah, BSI) dengan ± 30 tahun pengalaman di perbankan syariah, manajemen risiko, dan pemberdayaan ekonomi mikro.",
+      keahlian: ["Manajemen & Manajemen Risiko", "Perbankan Syariah & Pembiayaan", "Micro Finance", "Remedial Recovery"],
+      isi: [
+        "Untuk memperkuat posisi umat dan memberikan khidmat terbaik di tengah masyarakat, BAZNAS Kabupaten Tapanuli Selatan membutuhkan kepemimpinan yang kokoh — tidak hanya kuat secara nilai keagamaan, tetapi juga matang dalam pengalaman strategis, tata kelola, dan manajemen keuangan. Inilah komitmen yang dibawa oleh Jon Sujani Pasaribu, yang mengemban amanah sebagai Ketua BAZNAS Tapanuli Selatan.",
+        "Lahir di Padangsidimpuan pada 24 Juli 1966, beliau menempuh pendidikan dasar di tanah kelahiran, lalu melanjutkan studi ke Jakarta dan Medan (Fakultas Ekonomi UISU). Bekal ini memberinya perspektif yang luas dalam mengoptimalkan potensi zakat, infak, dan sedekah (ZIS) demi kemaslahatan umat.",
+        "Dengan pengalaman ± 30 tahun sebagai eks petinggi di Bank BUMN ternama (BNI, BNI Syariah, dan BSI), beliau memiliki keahlian mendalam di bidang manajemen dan manajemen risiko, perbankan syariah dan pembiayaan, micro finance (pemberdayaan ekonomi mikro), serta remedial recovery.",
+        "Kombinasi latar belakang ekonomi, perbankan syariah, dan pemahaman realitas sosial ini menjadi modal penting bagi BAZNAS Tapanuli Selatan dalam merumuskan program penghimpunan dan penyaluran zakat yang transparan, akuntabel, serta berorientasi pada pengentasan kemiskinan dan pemberdayaan ekonomi umat secara produktif, berkah, dan syar'i.",
+        "Mari bersama kita dukung gerak langkah BAZNAS Tapanuli Selatan dalam berkhidmat, menginspirasi, dan membawa kemaslahatan bagi seluruh masyarakat Tapanuli Selatan."
+      ]
+    },
+    {
+      nama: "Asep Safaat Siregar, S.Sos.I., S.Pd., M.Pd.",
+      jabatan: "Wakil Ketua II",
+      bidang: "Bidang Pendistribusian dan Pendayagunaan",
+      foto: "foto/pimpinan/asep-safaat-siregar.jpg",
+      ringkas: "Pendidik, penulis kolom Mimbar Jumat harian Waspada, dan pendakwah digital \"Malim Kampung\" dengan ± 10 tahun pengalaman mengelola dana umat di pesantren.",
+      keahlian: ["Pendayagunaan ZIS", "Literasi & Dakwah Digital", "Pemberdayaan Umat"],
+      isi: [
+        "Asep Safaat Siregar, S.Sos.I., S.Pd., M.Pd. adalah sosok pimpinan BAZNAS Kabupaten Tapanuli Selatan yang tidak hanya lekat dengan dunia birokrasi dan keumatan, tetapi juga aktif merawat akal budi masyarakat melalui literasi dan dakwah digital. Kini ia mengemban amanah sebagai Wakil Ketua II Bidang Pendistribusian dan Pendayagunaan.",
+        "Bagi warga Tapanuli Selatan, namanya bukan sosok yang asing. Pengabdiannya terentang dari bilik kelas pesantren, lembaran pemikiran di media massa, hingga sapaan hangat di ruang digital melalui persona khasnya: \"Malim Kampung\".",
+        "Lahir di Parsuluman pada 5 April 1984, jiwa kepemimpinannya terpupuk sejak menjadi aktivis mahasiswa di dalam maupun luar kampus. Fondasi keilmuan dan komunikasi Islamnya dibangun di STAIN Padangsidimpuan (kini UIN Syahada Padangsidimpuan), diperluas melalui disiplin pedagogi di STIT Al-Hikmah Tebingtinggi, hingga menuntaskan program magister di IAIN Padangsidimpuan pada 2021.",
+        "Selama kurang lebih 10 tahun hingga kini, ia dipercaya sebagai Kepala Divisi Humas dan Pemberdayaan Umat di Pesantren Modern Unggulan Terpadu Darul Mursyid — salah satu pusat pendidikan sains terkemuka di Tapanuli Selatan. Pengalaman mengelola dana umat secara transparan, tepat sasaran, dan berdampak langsung inilah yang kini ia terapkan dalam skala lebih luas di BAZNAS Tapanuli Selatan.",
+        "Ketajaman pemikirannya tercermin dari tulisan-tulisannya di kolom Mimbar Jumat harian Waspada, antara lain \"Misi Sosial Islam: Membela Kaum yang Lemah\", \"Zakat: Menghidupkan Harapan, Mengentaskan Kemiskinan\", \"Zakat Pengurang Pajak: Solusi Dua Kewajiban Satu Kantong\", \"Zakat Produktif untuk Kemandirian Umat\", dan \"Zakat sebagai Instrumen Keadilan Sosial\". Di dalamnya ia menegaskan bahwa zakat bukan sekadar amal konsumtif, melainkan instrumen untuk mengurangi kemiskinan struktural, menumbuhkan ekonomi kerakyatan, dan merekatkan ukhuwah.",
+        "Perpaduan ketajaman literasi, rekam jejak pemikiran ekonomi Islam, kepekaan sosial, dan pengalaman panjang mengelola dana umat menjadi bekal agar program pendistribusian dan pendayagunaan zakat di BAZNAS Tapanuli Selatan semakin profesional, amanah, dan menyentuh langsung mereka yang membutuhkan."
+      ]
+    },
+    {
+      nama: "Buya Tua Pardomuan Harahap, M.Pd.",
+      jabatan: "Wakil Ketua III",
+      bidang: "Sosial, Kemanusiaan & Tanggap Darurat",
+      foto: "foto/pimpinan/tua-pardomuan-harahap.jpg",
+      ringkas: "Ulama dan Pimpinan Thoriqoh Naqsabandiyah (Al Hasanah) yang memadukan bimbingan spiritual dengan aksi kemanusiaan dan tanggap bencana.",
+      keahlian: ["Tanggap Darurat & Bencana", "Pembinaan Spiritual", "Pemberdayaan Kelompok Rentan"],
+      isi: [
+        "Buya Tua Pardomuan Harahap, M.Pd. adalah figur ulama dan pengabdi masyarakat yang mendedikasikan hidupnya untuk merawat kedalaman rohani sekaligus menggerakkan aksi-aksi kemanusiaan. Beliau mengemban amanah sebagai Wakil Ketua III BAZNAS Kabupaten Tapanuli Selatan.",
+        "Perjalanan hidupnya memadukan keteladanan spiritual, tempaan pendidikan yang matang, dan kepekaan sosial yang tinggi. Pendidikannya ditempuh di SD Negeri Panompuan, SMP 29 Muhammadiyah Padangsidimpuan, MAS Pintu Padang, S1 di STAIS Lubuk Pakam, hingga S2 di UIN Syekh Ali Hasan Ahmad Addary Padangsidimpuan (Magister Pendidikan).",
+        "Saat ini beliau mengabdi melalui dua peran yang saling melengkapi. Sebagai Pimpinan Thoriqoh Naqsabandiyah (Al Hasanah), beliau istiqamah membimbing spiritualitas jamaah dan merawat moral keagamaan masyarakat. Sebagai Wakil Ketua III BAZNAS Tapanuli Selatan, beliau memimpin kepedulian sosial, program tanggap darurat, penanggulangan bencana, serta pemberdayaan kelompok masyarakat rentan.",
+        "Dalam situasi krisis sosial maupun bencana, kehadiran beliau tidak hanya membawa bantuan logistik, tetapi juga penguatan mental dan ketabahan spiritual (trauma healing berbasis keagamaan) bagi para korban. Pengalaman luas dalam memetakan wilayah rentan dan mengelola jaringan sosial memastikan program aksi cepat tanggap BAZNAS Tapanuli Selatan berjalan cepat, tepat sasaran, dan akuntabel.",
+        "Berbekal prinsip hidup dari hadis Nabi, \"Sebaik-baik manusia adalah yang paling bermanfaat bagi manusia lainnya,\" beliau menjadi pilar penting dalam mewujudkan tata kelola zakat yang tidak hanya menyejahterakan secara ekonomi, tetapi juga menenteramkan secara batin."
+      ]
+    }
+  ];
+
   /* ===== PENGATURAN KALKULATOR =====
      Ganti nilai nisab sesuai SK Ketua BAZNAS RI yang berlaku tahun ini
      (nisab zakat penghasilan = setara 85 gram emas per tahun, dibagi 12). */
@@ -762,8 +844,33 @@
   });
   renderBuletin("Semua");
 
+  // --- Profil pimpinan: render kartu ---
+  $("daftarPimpinan").innerHTML = DATA_PIMPINAN.map((p, i) => `
+    <article class="bg-white rounded-3xl border border-slate-200 overflow-hidden flex flex-col shadow-sm">
+      <img src="${p.foto}" alt="Foto ${p.nama}" loading="lazy" class="w-full aspect-[4/5] object-cover object-top bg-baznas-light">
+      <div class="p-6 flex flex-col flex-1">
+        <p class="text-sm font-bold uppercase tracking-wide text-baznas">${p.jabatan}</p>
+        <h3 class="mt-1 text-xl font-extrabold text-slate-900 leading-snug">${p.nama}</h3>
+        ${p.bidang ? `<p class="mt-1 text-sm font-medium text-slate-600">${p.bidang}</p>` : ""}
+        <p class="mt-3 text-slate-700 leading-relaxed flex-1">${p.ringkas}</p>
+        ${p.keahlian && p.keahlian.length ? `<ul class="mt-4 flex flex-wrap gap-2">${p.keahlian.map(k => `<li class="text-xs font-semibold bg-baznas-light text-baznas-dark px-3 py-1 rounded-full">${k}</li>`).join("")}</ul>` : ""}
+        <button class="profilBtn mt-5 self-start font-bold text-baznas hover:underline" data-i="${i}">Baca profil lengkap →</button>
+      </div>
+    </article>`).join("");
+
   // --- Buletin: modal baca berita ---
   const modal = $("modal");
+  document.addEventListener("click", e => {
+    const pb = e.target.closest(".profilBtn"); if (!pb) return;
+    const p = DATA_PIMPINAN[pb.dataset.i];
+    $("modalGambar").innerHTML = `<img src="${p.foto}" alt="Foto ${p.nama}" class="w-full h-full object-cover object-top">`;
+    $("modalGambar").className = "aspect-[4/3] bg-baznas-light";
+    $("modalMeta").textContent = p.jabatan + (p.bidang ? ` · ${p.bidang}` : "") + " · BAZNAS Kab. Tapanuli Selatan";
+    $("modalJudul").textContent = p.nama;
+    $("modalIsi").innerHTML = p.isi.map(t => `<p>${t}</p>`).join("");
+    modal.classList.remove("hidden"); document.body.style.overflow = "hidden";
+    $("modalTutup").focus();
+  });
   document.addEventListener("click", e => {
     const btn = e.target.closest(".bacaBtn"); if (!btn) return;
     const b = DATA_BULETIN[btn.dataset.i];
