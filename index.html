@@ -620,10 +620,34 @@
        isi      : daftar paragraf (setiap "..." = satu paragraf)
        ikon     : emoji pengganti foto (atau kosongkan dan isi gambar)
        gambar   : (opsional) alamat foto, mis. "foto/berita1.jpg"
+       galeri   : (opsional) daftar foto tambahan, tampil di jendela baca
        utama    : true = tampil sebagai berita utama (cukup satu)
      CATATAN: berita di bawah adalah CONTOH — ganti dengan berita asli.
      ================================================================ */
   const DATA_BULETIN = [
+    {
+      judul: "Sapa Warga Angkola Sangkunur, BAZNAS Tapsel Ajak Masyarakat Tunaikan Zakat Lewat Jalur Resmi",
+      kategori: "Kegiatan",
+      tanggal: "27 Oktober 2026",
+      penulis: "Tim Humas BAZNAS Tapsel",
+      ringkas: "Rangkaian Silaturrahim & Sosialisasi BAZNAS ke 15 kecamatan singgah di Kecamatan Angkola Sangkunur. Pimpinan BAZNAS berdialog langsung dengan aparatur kecamatan, tokoh agama, dan warga tentang pentingnya zakat bagi kesejahteraan bersama.",
+      isi: [
+        "ANGKOLA SANGKUNUR — Badan Amil Zakat Nasional (BAZNAS) Kabupaten Tapanuli Selatan melanjutkan rangkaian kegiatan Silaturrahim dan Sosialisasi ke 15 kecamatan di Kabupaten Tapanuli Selatan. Pada Selasa, 27 Oktober 2026, giliran Kecamatan Angkola Sangkunur yang menjadi tuan rumah.",
+        "Kegiatan yang mengusung semangat \"Zakat Penolong Sesama di Dunia, Menjadi Penyelamat di Akhirat\" ini dihadiri jajaran aparatur kecamatan, tokoh agama, tokoh masyarakat, kaum ibu, serta warga dari berbagai desa. Suasana berlangsung hangat dan penuh kekeluargaan sejak acara dibuka.",
+        "Dalam pemaparannya, pimpinan BAZNAS Tapanuli Selatan menjelaskan kedudukan BAZNAS sebagai lembaga resmi pengelola zakat, infak, dan sedekah (ZIS) di daerah, sekaligus memperkenalkan program-program yang dijalankan, mulai dari bantuan pendidikan, kesehatan, pemberdayaan ekonomi, hingga tanggap darurat bencana. Masyarakat diajak memahami bahwa zakat bukan sekadar kewajiban pribadi, melainkan instrumen untuk mengangkat saudara-saudara yang membutuhkan dan memperkuat ekonomi umat.",
+        "Sosialisasi juga menekankan pentingnya menunaikan zakat melalui saluran resmi agar dana umat tercatat dengan baik, tersalurkan tepat sasaran kepada delapan golongan penerima (asnaf), dan dapat dipertanggungjawabkan secara transparan. Warga mendapat penjelasan mengenai jenis-jenis zakat, khususnya zakat penghasilan dan zakat maal, beserta cara menghitung dan menunaikannya.",
+        "Sesi dialog menjadi bagian yang paling hidup. Peserta antusias menyampaikan pertanyaan dan masukan, mulai dari tata cara penyaluran zakat hingga harapan agar bantuan BAZNAS semakin menjangkau warga yang membutuhkan di pelosok kecamatan. Para pimpinan BAZNAS menjawab satu per satu dan menegaskan komitmen untuk memperkuat sinergi dengan pemerintah kecamatan dan desa.",
+        "Melalui kegiatan yang sejalan dengan semangat \"Sinergi Tapsel Bangkit\" ini, BAZNAS Kabupaten Tapanuli Selatan berharap kesadaran berzakat di Angkola Sangkunur terus tumbuh, sehingga semakin banyak mustahik yang terbantu dan kesejahteraan masyarakat meningkat secara merata.",
+        "Rangkaian Silaturrahim dan Sosialisasi BAZNAS akan berlanjut ke kecamatan-kecamatan lainnya di Kabupaten Tapanuli Selatan."
+      ],
+      ikon: "🤝",
+      gambar: "foto/berita/sosialisasi-angkola-sangkunur-1.jpg",
+      galeri: [
+        "foto/berita/sosialisasi-angkola-sangkunur-2.jpg",
+        "foto/berita/sosialisasi-angkola-sangkunur-3.jpg"
+      ],
+      utama: true
+    },
     {
       judul: "BAZNAS Tapsel Salurkan Bantuan Pendidikan untuk Pelajar Mustahik",
       kategori: "Penyaluran",
@@ -636,8 +660,7 @@
         "BAZNAS mengajak masyarakat terus menunaikan zakat melalui saluran resmi agar program serupa dapat menjangkau lebih banyak pelajar."
       ],
       ikon: "🎓",
-      gambar: "",
-      utama: true
+      gambar: ""
     },
     {
       judul: "Bimbingan Teknis UPZ Kecamatan se-Tapanuli Selatan",
@@ -891,7 +914,8 @@
     $("modalGambar").className = "aspect-video flex items-center justify-center text-7xl bg-gradient-to-br from-baznas-light to-emas-light";
     $("modalMeta").textContent = `${b.kategori} · ${b.tanggal} · ${b.penulis}`;
     $("modalJudul").textContent = b.judul;
-    $("modalIsi").innerHTML = b.isi.map(p => `<p>${p}</p>`).join("");
+    $("modalIsi").innerHTML = b.isi.map(p => `<p>${p}</p>`).join("")
+      + (b.galeri && b.galeri.length ? `<div class="grid sm:grid-cols-2 gap-3 pt-2">${b.galeri.map(g => `<img src="${g}" alt="Dokumentasi: ${b.judul}" loading="lazy" class="w-full aspect-[4/3] object-cover rounded-xl">`).join("")}</div>` : "");
     modal.classList.remove("hidden"); document.body.style.overflow = "hidden";
     $("modalTutup").focus();
   });
